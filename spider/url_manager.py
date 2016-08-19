@@ -1,3 +1,4 @@
+# coding:utf-8
 class UrlManager(object):
     def has_new_url(self):
         pass

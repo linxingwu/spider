@@ -1,5 +1,5 @@
 # coding:utf-8
-from spider2 import url_manager, html_downloader, html_outputer, html_parser
+import url_manager, html_downloader, html_outputer, html_parser
 
 
 class SpiderMain(object):
@@ -30,7 +30,8 @@ class SpiderMain(object):
 
 if __name__ == "__main__":
     obj_spider = SpiderMain()
+    # 知乎话题：性关系
     url = """
-    https://www.zhihu.com/question/37454607
+    https://www.zhihu.com/topic/19730619/top-answers
     """
     obj_spider.craw(url)
