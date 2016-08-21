@@ -16,14 +16,18 @@ class SpiderMain(object):
             new_url = self.urls.get_new_url()
             try:
                 html_doc = self.downloader.download(new_url)
+                print new_url
                 print '爬取 %d\t:%s' % (count, new_url)
                 new_urls, data = self.parser.parse(new_url, html_doc)
                 self.outputer.add_data(data)
+                count += 1
                 if len(new_urls) > 0:
                     self.urls.add_new_urls(new_urls)
                 if count > 10:
                     break
-            except:
+            except Exception as e:
+                print count
+                print e
                 print 'craw failed:%s' % new_url
         self.outputer.output_result()
 

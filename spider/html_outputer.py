@@ -1,7 +1,12 @@
 # coding:utf-8
 class Outputer(object):
+    def __init__(self):
+        self.data = list()
+
     def add_data(self, data):
-        pass
+        if data is not None:
+            self.data.append(data)
 
     def output_result(self):
-        pass
+        for d in self.data:
+            print d["url"], d["author"], d["answer"]
