@@ -10,14 +10,16 @@ class SpiderMain(object):
         self.outputer = html_outputer.Outputer()
 
     def craw(self, url):
-        self.urls.add_new_url(url)
+        urllist = self.parser.parseurl_list()
+        if urllist is not None and len(urllist) > 0:
+            self.urls.add_new_urls(urllist)
+        # self.urls.add_new_url(url)
         count = 1
         while self.urls.has_new_url():
             new_url = self.urls.get_new_url()
             try:
                 html_doc = self.downloader.download(new_url)
-                print new_url
-                print '爬取 %d\t:%s' % (count, new_url)
+                print u'爬取 %d\t:%s' % (count, new_url)
                 new_urls, data = self.parser.parse(new_url, html_doc)
                 self.outputer.add_data(data)
                 count += 1
@@ -34,8 +36,8 @@ class SpiderMain(object):
 
 if __name__ == "__main__":
     obj_spider = SpiderMain()
-    # 知乎话题：性关系
+    # 知乎话题：生活
     url = """
-    https://www.zhihu.com/topic/19730619/top-answers
+    https://www.zhihu.com/topic/19551147/top-answers
     """
     obj_spider.craw(url)

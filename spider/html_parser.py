@@ -39,3 +39,6 @@ class Parser(object):
         data_answer = answer.get_text()
         data["answer"] = data_answer
         return data
+
+    def parseurl_list(self):
+        pass
