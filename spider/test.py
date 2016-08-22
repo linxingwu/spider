@@ -8,6 +8,9 @@
 # soup = BeautifulSoup(html_doc, "html.parser", from_encoding="utf-8")
 # node = soup.find("span", class_="copy")
 # print node.get_text()
+import re
 
-url = "https://www.zhihu.com/question/32040945/answer/70111320"
-print '爬取 %d\t:%s' % (1, url)
+url = "https://pic2.zhimg.com/c76c897ab037fc0b04c7fa620b165d11_b.jpg"
+pattern = re.compile(r'/\w+_b\.jpg')
+list = pattern.findall(url)
+print type(list[0])

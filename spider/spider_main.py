@@ -10,7 +10,9 @@ class SpiderMain(object):
         self.outputer = html_outputer.Outputer()
 
     def craw(self, url):
-        urllist = self.parser.parseurl_list()
+        # 首先根据话题链接，将话题下的精华回答链接保存
+        html_doc = self.downloader.download(url)
+        urllist = self.parser.parseurl_list(html_doc)
         if urllist is not None and len(urllist) > 0:
             self.urls.add_new_urls(urllist)
         # self.urls.add_new_url(url)
@@ -23,8 +25,8 @@ class SpiderMain(object):
                 new_urls, data = self.parser.parse(new_url, html_doc)
                 self.outputer.add_data(data)
                 count += 1
-                if len(new_urls) > 0:
-                    self.urls.add_new_urls(new_urls)
+                # if len(new_urls) > 0:
+                #     self.urls.add_new_urls(new_urls)
                 if count > 10:
                     break
             except Exception as e:

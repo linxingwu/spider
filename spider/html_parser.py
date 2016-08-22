@@ -4,6 +4,7 @@
 答案概要 <div class="feed-item feed-item-hook folding"> <div class="zh-summary summary clearfix"> <a href="/question/46053358/answer/100268713" class="toggle-expand">显示全部</a>
 '''
 import re
+import urllib
 
 from bs4 import BeautifulSoup
 
@@ -15,6 +16,7 @@ class Parser(object):
         soup = BeautifulSoup(html_doc, "html.parser", from_encoding="utf-8")
         urls = self.getNew_Urls(new_url, soup)
         data = self.getData(new_url, soup)
+        self.downloadImg(soup)
         return urls, data
 
     def getNew_Urls(self, new_url, soup):
@@ -33,12 +35,30 @@ class Parser(object):
         data_author = soup.find("a", class_="author-link").get_text()
         data["author"] = data_author
         # class="zm-editable-content clearfix"
-        answer = soup.find("div", class_="zh-summary summary clearfix")
+        answer = soup.find("div", class_="zm-editable-content clearfix")
         if answer is None:
             answer = soup.find("div", class_="zm-editable-content clearfix")
         data_answer = answer.get_text()
         data["answer"] = data_answer
+        question = soup.find("a", href=re.compile(r'/question/\d+')).get_text()
+        data["question"] = question
         return data
 
-    def parseurl_list(self):
-        pass
+    def parseurl_list(self, html_doc):
+        linklist = []
+        soup = BeautifulSoup(html_doc, "html.parser", from_encoding="utf-8")
+        links = soup.find_all('a', class_="toggle-expand", text="显示全部")
+        if links is not None and len(links) > 0:
+            for link in links:
+                link = "https://www.zhihu.com" + link["href"]
+                linklist.append(link)
+        return linklist
+
+    def downloadImg(self, soup):
+        # origin_image zh-lightbox-thumb lazy
+        imgs = soup.find_all("img", class_="origin_image zh-lightbox-thumb lazy")
+        count = 1
+        for img in imgs:
+            urllib.urlretrieve(img["data-original"], "E:/zhihu/spider/"+str(count)+".jpg")
+            count += 1
+

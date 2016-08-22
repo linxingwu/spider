@@ -9,4 +9,4 @@ class Outputer(object):
 
     def output_result(self):
         for d in self.data:
-            print d["url"], d["author"], d["answer"]
+            print d["url"], d["question"], d["author"], d["answer"]
